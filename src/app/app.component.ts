@@ -30,31 +30,6 @@ export class PokemonListComponent implements OnInit {
     this.loadPokemons();
     this.pokemonCapturado();
   }
-
-
-
-  // loadPokemons(): void {
-  //   if (!this.nameFilter && !this.typeFilter) {
-  //     // Cargar todos los Pokémon con paginación
-  //     this.pokemonService.getLista(this.limit, this.currentPage).subscribe(data => {
-
-  //       this.listaPokemons = data.slice((this.currentPage - 1) * this.limit, this.currentPage * this.limit);
-  //       this.pokemons = this.listaPokemons; // Muestra todos los Pokémon
-  //       this.totalPokemons = data.length; // Total Pokémon sin filtrar
-  //       this.totalPages = Math.ceil(this.totalPokemons / this.limit); // Total de páginas
-  //       console.log(this.listaPokemons);
-  //     });
-  //   } else {
-  //     // Cargar Pokémon filtrados con paginación
-  //     this.pokemonService.getPokemons(this.limit, this.currentPage, this.nameFilter, this.typeFilter, this.capturado).subscribe(data => {
-  //       this.pokemonCapturado();
-  //       this.pokemons = data.pokemons;
-  //       console.log(this.pokemons)
-  //       this.totalPokemons = data.totalPokemons;
-  //       this.totalPages = data.totalPages;
-  //     });
-  //   }
-  // }
   loadPokemons(): void {
     if (!this.nameFilter && !this.typeFilter) {
       // Cargar todos los Pokémon con paginación
@@ -90,12 +65,12 @@ export class PokemonListComponent implements OnInit {
   }
 
   onLimitChange(): void {
-    this.currentPage = 1; // Reiniciar a la primera página al cambiar el límite
-    this.loadPokemons();   // Cargar Pokémon de acuerdo al nuevo límite
+    this.currentPage = 1; 
+    this.loadPokemons();   
   }
 
   onFilterChange(): void {
-    this.currentPage = 1; // Reiniciar a la primera página al aplicar un filtro
+    this.currentPage = 1; 
     this.loadPokemons();
 
   }
@@ -123,8 +98,8 @@ export class PokemonListComponent implements OnInit {
 
   capturarPokemon(id: number) {
     this.pokemonService.getCapturados(id).subscribe(data => {
-      this.capturedPokemons.push(data.pokemon); // Asigna los Pokémon capturados a la propiedad
-      console.log(this.capturedPokemons); // Para verificar que los Pokémon se han capturado
+      this.capturedPokemons.push(data.pokemon); 
+      console.log(this.capturedPokemons); 
       this.pokemonCapturado()
       this.loadPokemons();
     });
@@ -135,7 +110,7 @@ export class PokemonListComponent implements OnInit {
 
   deletePokemon(id: number) {
     this.pokemonService.deletePokemon(id).subscribe(response => {
-      console.log(response.message); // Mensaje de éxito
+      console.log(response.message); 
       this.pokemonCapturado()
       this.loadPokemons();
     }, error => {
