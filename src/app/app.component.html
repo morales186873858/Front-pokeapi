@@ -1,0 +1,107 @@
+<style>
+  /* Responsive Styles */
+  @media screen and (max-width: 767px) {
+    .card-container > *:not(.circle-link) ,
+    .terminal {
+      width: 100%;
+    }
+
+    .card:not(.highlight-card) {
+      height: 16px;
+      margin: 8px 0;
+    }
+
+    .card.highlight-card span {
+      margin-left: 72px;
+    }
+
+    svg#rocket-smoke {
+      right: 120px;
+      transform: rotate(-5deg);
+    }
+  }
+
+  @media screen and (max-width: 575px) {
+    svg#rocket-smoke {
+      display: none;
+      visibility: hidden;
+    }
+  }
+</style>
+<div class="pokedex-wrapper">
+  <div class="pokedex">
+    <div class="pokedex-header">
+      <h1>Pokédex</h1>
+    </div>
+    <div class="filters">
+      <div class="filter">
+        <label for="nameFilter">Nombre:</label>
+        <input
+          id="nameFilter"
+          [(ngModel)]="nameFilter"
+          (input)="onFilterChange()"
+          placeholder="Buscar Pokémon..."
+        />
+      </div>
+
+      <div class="filter">
+        <label for="typeFilter">Tipo:</label>
+        <input
+          id="typeFilter"
+          [(ngModel)]="typeFilter"
+          (input)="onFilterChange()"
+          placeholder="Buscar por tipo..."
+        />
+      </div>
+      <div class="filter">
+        <label for="typeFilter">Mostrar:</label>
+        <select id="limitSelect" [(ngModel)]="limit" (change)="onLimitChange()">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </select>
+      </div>    
+    </div>
+    <div class="pokemon-card-container">
+      <div *ngFor="let pokemon of pokemons" class="pokemon-card">
+        <img [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id + '.png'" alt="{{ pokemon.name }}" class="pokemon-image" />
+        <h3 class="pokemon-name">{{ pokemon.name }}</h3>
+        <p class="pokemon-types">Tipos: {{ pokemon.types.join(', ') }}</p>
+        <button 
+          (click)="capturarPokemon(pokemon.id)" 
+          [disabled]="pokemon.captured === 1"
+          class="capture-button"
+        >
+          {{ pokemon.captured === 1 ? 'Capturado' : 'Capturar' }}
+        </button>
+        <span *ngIf="pokemon.captured === 1" class="captured-indicator">✅</span>
+      </div>
+    </div>
+        <div class="pagination">
+      <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Anterior</button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Siguiente</button>
+    </div>
+  </div>
+
+  <div class="pokedex-container">   
+    <div *ngIf="capturedPokemons.length > 0">
+      <h2>Pokémon Capturados</h2>   
+      <div class="pokemon-card-container">
+        <div *ngFor="let pokemon of capturedPokemons"class="pokemon-card">
+          <img [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + pokemon.id + '.png'"  alt="{{ pokemon.id }}" class="pokemon-image" />                 
+          <h3 class="pokemon-name">{{ pokemon.pokemon }}</h3>
+          <p class="pokemon-types">  Tipo: {{ pokemon.tipo }}</p>
+          <button class="btn-eliminar" (click)="deletePokemon(pokemon.id)">Eliminar</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<router-outlet></router-outlet>
